@@ -69,5 +69,37 @@ namespace LibraryGradProjectTests.Controllers
             // Assert
             mockRepo.Verify(mock => mock.Remove(It.Is<int>(x => x == 1)), Times.Once);
         }
+
+        [Fact]
+        public void Put_With_Existing_Book_Calls_Repo_Get()
+        {
+            // Arrange
+            Book book = new Book() { Id = 1, Title = "A Book" };
+            var mockRepo = new Mock<IRepository<Book>>();
+            mockRepo.Setup(mock => mock.Get(It.IsAny<int>())).Returns(() => book);
+            BooksController controller = new BooksController(mockRepo.Object);
+
+            Book newBook = new Book() { Id = 1, Title = "An Edited Book" };
+
+            // Act
+            controller.Put(newBook);
+
+            // Assert
+            mockRepo.Verify(mock => mock.Get(It.Is<int>(x => x == 1)), Times.Once);
+        }
+
+        [Fact]
+        public void Post_With_Bad_Id_Book_Throws_Exception()
+        {
+            // Arrange
+            var mockRepo = new Mock<IRepository<Book>>();
+            mockRepo.Setup(mock => mock.Get(It.IsAny<int>())).Returns(() => null);
+            BooksController controller = new BooksController(mockRepo.Object);
+
+            Book newBook = new Book() { Id = 1 };
+
+            // Act & Assert
+            Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => controller.Put(newBook));
+        }
     }
 }
