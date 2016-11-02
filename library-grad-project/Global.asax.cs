@@ -22,7 +22,7 @@ namespace LibraryGradProject
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             // Register types
-            builder.RegisterType<BookRepository>().As<IRepository<Book>>().SingleInstance();
+            builder.RegisterType<FilledBookRepository>().As<IRepository<Book>>().SingleInstance();
 
             // Set the dependency resolver to be Autofac
             var container = builder.Build();
