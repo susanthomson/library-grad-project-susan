@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BooksControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repos\FilledBookRepositoryTests.cs" />
     <Compile Include="Repos\BookRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
