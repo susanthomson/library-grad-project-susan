@@ -1,4 +1,7 @@
-﻿namespace LibraryGradProject.Models
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
+namespace LibraryGradProject.Models
 {
     public class Book
     {
@@ -7,5 +10,8 @@
         public string Title { get; set; }
         public string Author { get; set; }
         public string PublishDate { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }
