@@ -194,7 +194,7 @@
     <Compile Include="Repos\ReservationRepository.cs" />
     <Compile Include="Repos\BookRepository.cs" />
     <Compile Include="Repos\FilledBookRepository.cs" />
-    <Compile Include="Repos\IRepository.cs" />
+    <Compile Include="Repos\IBookRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
