@@ -1,4 +1,6 @@
-﻿namespace LibraryGradProject.Models
+﻿using Newtonsoft.Json;
+
+namespace LibraryGradProject.Models
 {
     public class Reservation
     {
@@ -6,5 +8,8 @@
         public int BookId { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+
+        [JsonIgnore]
+        public virtual Book Book { get; set; }
     }
 }
