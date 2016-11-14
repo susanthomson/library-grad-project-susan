@@ -23,7 +23,7 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             buildBooks();
-            IRepository<Book> repo = new FilledBookRepository(starterBooks);
+            IBookRepository<Book> repo = new FilledBookRepository(starterBooks);
 
             // Act
             IEnumerable<Book> books = repo.GetAll();

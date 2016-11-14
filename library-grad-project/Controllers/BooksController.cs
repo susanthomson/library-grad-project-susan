@@ -8,9 +8,9 @@ namespace LibraryGradProject.Controllers
 {
     public class BooksController : ApiController
     {
-        private IRepository<Book> _bookRepo;
+        private IBookRepository<Book> _bookRepo;
         
-        public BooksController(IRepository<Book> bookRepository)
+        public BooksController(IBookRepository<Book> bookRepository)
         {
             _bookRepo = bookRepository;
         }
