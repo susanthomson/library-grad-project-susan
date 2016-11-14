@@ -2,7 +2,7 @@
 
 namespace LibraryGradProject.Repos
 {
-    public interface IRepository<T>
+    public interface IBookRepository<T>
     {
         T Get(int id);
         IEnumerable<T> GetAll();

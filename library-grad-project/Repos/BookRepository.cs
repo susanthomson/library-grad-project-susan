@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LibraryGradProject.Repos
 {
-    public class BookRepository : IRepository<Book>
+    public class BookRepository : IBookRepository<Book>
     {
         private List<Book> _bookCollection = new List<Book>();
 

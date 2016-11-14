@@ -12,7 +12,7 @@ namespace LibraryGradProjectTests.Controllers
         public void Get_Calls_Repo_GetAll()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.GetAll());
             BooksController controller = new BooksController(mockRepo.Object);
 
@@ -27,7 +27,7 @@ namespace LibraryGradProjectTests.Controllers
         public void Get_With_Id_Calls_Repo_Get()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.Get(It.IsAny<int>()));
             BooksController controller = new BooksController(mockRepo.Object);
 
@@ -42,7 +42,7 @@ namespace LibraryGradProjectTests.Controllers
         public void Post_With_Book_Calls_Repo_Add()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.Add(It.IsAny<Book>()));
             BooksController controller = new BooksController(mockRepo.Object);
 
@@ -59,7 +59,7 @@ namespace LibraryGradProjectTests.Controllers
         public void Delete_With_Id_Calls_Repo_Remove()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.Remove(It.IsAny<int>()));
             BooksController controller = new BooksController(mockRepo.Object);
 
@@ -75,7 +75,7 @@ namespace LibraryGradProjectTests.Controllers
         {
             // Arrange
             Book book = new Book() { Id = 1, Title = "A Book" };
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.Get(It.IsAny<int>())).Returns(() => book);
             BooksController controller = new BooksController(mockRepo.Object);
 
@@ -92,7 +92,7 @@ namespace LibraryGradProjectTests.Controllers
         public void Post_With_Bad_Id_Book_Throws_Exception()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<Book>>();
+            var mockRepo = new Mock<IBookRepository<Book>>();
             mockRepo.Setup(mock => mock.Get(It.IsAny<int>())).Returns(() => null);
             BooksController controller = new BooksController(mockRepo.Object);
 
