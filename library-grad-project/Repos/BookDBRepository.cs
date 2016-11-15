@@ -1,4 +1,5 @@
 ﻿using LibraryGradProject.Models;
+using LibraryGradProject.DAL;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,13 @@ namespace LibraryGradProject.Repos
 {
     public class BookDBRepository : IBookRepository<Book>
     {
-        private DAL.LibraryContext db = new DAL.LibraryContext();
+
+        private LibraryContext db;
+
+        public BookDBRepository(LibraryContext db)
+        {
+            this.db = db;
+        }
 
         public void Add(Book entity)
         {

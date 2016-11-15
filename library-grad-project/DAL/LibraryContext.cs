@@ -6,7 +6,7 @@ namespace LibraryGradProject.DAL
     public class LibraryContext : DbContext
     {
 
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
     }
 }
