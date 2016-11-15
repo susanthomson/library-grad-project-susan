@@ -2,6 +2,7 @@
 using Autofac.Integration.WebApi;
 using LibraryGradProject.Models;
 using LibraryGradProject.Repos;
+using LibraryGradProject.DAL;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -22,8 +23,8 @@ namespace LibraryGradProject
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             // Register types
-            builder.RegisterType<BookDBRepository>().As<IBookRepository<Book>>().SingleInstance();
-            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book>>().SingleInstance();
+            builder.RegisterType<BookDBRepository>().As<IBookRepository<Book>>().WithParameter("db", new LibraryContext()).SingleInstance();
+            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book>>().WithParameter("db", new LibraryContext()).SingleInstance();
 
             // Set the dependency resolver to be Autofac
             var container = builder.Build();

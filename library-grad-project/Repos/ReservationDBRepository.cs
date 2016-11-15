@@ -1,4 +1,5 @@
 ﻿using LibraryGradProject.Models;
+using LibraryGradProject.DAL;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,8 +7,12 @@ namespace LibraryGradProject.Repos
 {
     public class ReservationDBRepository : IReservationRepository<Reservation, Book>
     {
-        private DAL.LibraryContext db = new DAL.LibraryContext();
+        private LibraryContext db;
 
+        public ReservationDBRepository(LibraryContext db)
+        {
+            this.db = db;
+        }
         public void Borrow(Book book)
         {
             Reservation bookIsOut = db.Reservations
