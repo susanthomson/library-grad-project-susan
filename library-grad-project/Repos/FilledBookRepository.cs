@@ -14,14 +14,14 @@ namespace LibraryGradProject.Repos
 
             starterBooks.Add(new Book()
             {
-                ISBN = "0 - 7475 - 3269 - 9",
+                ISBN = "0-7475-3269-9",
                 Title = "Harry Potter and the Philosopher's Stone",
                 Author = "J. K. Rowling",
                 PublishDate = "26 June 1997"
             });
             starterBooks.Add(new Book()
             {
-                ISBN = "0 - 7475 - 3849 - 2",
+                ISBN = "0-7475-3849-2",
                 Title = "Harry Potter and the Chamber of Secrets",
                 Author = "J. K. Rowling",
                 PublishDate = "2 July 1998"
