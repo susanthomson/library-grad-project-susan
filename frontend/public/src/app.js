@@ -11,7 +11,7 @@ class ItemLister extends React.Component {
     componentDidMount() {
         this.getData();
         this.timerID = setInterval(
-            () => {this.getData},
+            () => this.getData(),
             1000
         );
     }
