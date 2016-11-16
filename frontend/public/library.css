@@ -1,0 +1,10 @@
+.BookList {
+    display: flex;
+    flex-direction: column; 
+}
+
+.Book {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
