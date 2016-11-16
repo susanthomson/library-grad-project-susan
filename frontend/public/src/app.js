@@ -5,13 +5,13 @@ import "whatwg-fetch";
 class ItemLister extends React.Component {
     constructor() {
         super();
-        this.state = { items: [] };
+        this.state = { books: [], reservations: [] };
     }
     
     componentDidMount() {
-        this.getBooks();
+        this.getData();
         this.timerID = setInterval(
-            () => this.getBooks(),
+            () => {this.getData},
             1000
         );
     }
@@ -26,16 +26,41 @@ class ItemLister extends React.Component {
                 return result.json();
             })
             .then(result=> {
-                this.setState({items:result});
+                this.setState({books:result});
             });    
     }
+
+    getReservations() {
+        fetch("http://localhost:51918/api/reservations/")
+            .then(function(result) {
+                return result.json();
+            })
+            .then(result=> {
+                this.setState({reservations:result});
+            });    
+    }
+
+    getData() {
+        this.getBooks();
+        this.getReservations();
+    } 
     
     render() {
         return(
             <div>
                 <div>Books:</div>
                 <div className="BookList">
-                    { this.state.items.map(item=> { return (<Book key={item.Id} book={item} />); }) }
+                    { this.state.books.map(item=> {
+                        var reserved = this.state.reservations.filter(reservation=> {
+                            return reservation.BookId === item.Id && reservation.EndDate === null;
+                        }).length ? "reserved" : "available";
+                        return (
+                            <div className="ReservedBook" key={item.Id}>
+                                <Book book={item} />
+                                <div className={reserved}> {reserved} </div>
+                            </div>
+                        );
+                    }) }
                 </div>  
             </div>  
         );

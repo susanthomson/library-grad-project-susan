@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Http.Cors;
 
 namespace LibraryGradProject.Controllers
 {
+    [EnableCors(origins: "http://127.0.0.1:3000", headers: "*", methods: "*")]
     public class ReservationsController : ApiController
     {
         private IReservationRepository<Reservation, Book> _reservationRepo;
