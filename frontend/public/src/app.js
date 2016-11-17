@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "whatwg-fetch";
 
 class ItemLister extends React.Component {
     constructor() {
@@ -50,14 +49,14 @@ class ItemLister extends React.Component {
             <div>
                 <div>Books:</div>
                 <div className="BookList">
-                    { this.state.books.map(item=> {
-                        var reserved = this.state.reservations.filter(reservation=> {
-                            return reservation.BookId === item.Id && reservation.EndDate === null;
-                        }).length ? "reserved" : "available";
+                    { this.state.books.map(book=> {
+                        var isReserved = this.state.reservations.filter(reservation=> {
+                            return reservation.BookId === book.Id && reservation.EndDate === null;
+                        }).length;
                         return (
-                            <div className="ReservedBook" key={item.Id}>
-                                <Book book={item} />
-                                <div className={reserved}> {reserved} </div>
+                            <div className="ReservedBook" key={book.Id}>
+                                <Book book={book} />
+                                <Reserve isReserved={isReserved} bookId={book.Id}/>
                             </div>
                         );
                     }) }
@@ -65,6 +64,81 @@ class ItemLister extends React.Component {
             </div>  
         );
     }
+}
+
+function ReserveButton(props) {
+  return (
+    <button onClick={props.onClick}>
+      Reserve
+    </button>
+  );
+}
+
+function ReturnButton(props) {
+  return (
+    <button onClick={props.onClick}>
+      Return
+    </button>
+  );
+}
+
+class ReserveControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleReserveClick = this.handleReserveClick.bind(this);
+    this.handleReturnClick = this.handleReturnClick.bind(this);
+  }
+
+  handleReserveClick() {
+    fetch("http://localhost:51918/api/reservations", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "Id": this.props.bookId
+            })
+        })
+        .then(function(result) {
+            return result.json();
+        })
+        .then(result=> {
+            console.log(result);
+        });
+    }
+
+    handleReturnClick() {
+        fetch("http://localhost:51918/api/reservations", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "Id": this.props.bookId
+                })
+            })
+            .then(function(result) {
+                return result.json();
+            })
+            .then(result=> {
+                console.log(result);
+            }); 
+    }
+
+    render() {
+        let button = null;
+        if (this.props.isReserved) {
+            button = <ReturnButton onClick={this.handleReturnClick}/>;
+        } else {
+            button = <ReserveButton onClick={this.handleReserveClick} bookId={this.props.bookId} />;
+        }
+
+    return (
+      <div>
+        {button}
+      </div>
+    );
+  }
 }
 
 function Book(props) {
@@ -75,6 +149,15 @@ function Book(props) {
             <div>{props.book.Author}</div>
             <div>{props.book.PublishDate}</div>
         </div>
+    );
+}
+
+function Reserve(props) {
+    return (
+        <div className="ReserveBlock">
+            <div className={props.isReserved ? "reserved" : "available"}> {props.isReserved ? "reserved" : "available"} </div>
+            <ReserveControl isReserved={props.isReserved} bookId={props.bookId}/>
+        </div>   
     );
 }
 
