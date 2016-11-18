@@ -7,9 +7,9 @@ namespace LibraryGradProject.Repos
 {
     public class ReservationDBRepository : IReservationRepository<Reservation, Book>
     {
-        private LibraryContext db;
+        private ILibraryContext db;
 
-        public ReservationDBRepository(LibraryContext db)
+        public ReservationDBRepository(ILibraryContext db)
         {
             this.db = db;
         }

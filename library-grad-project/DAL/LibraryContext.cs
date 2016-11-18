@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace LibraryGradProject.DAL
 {
-    public class LibraryContext : DbContext
+    public class LibraryContext : DbContext, ILibraryContext
     {
 
         public virtual DbSet<Book> Books { get; set; }
