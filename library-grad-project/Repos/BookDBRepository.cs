@@ -8,9 +8,9 @@ namespace LibraryGradProject.Repos
     public class BookDBRepository : IBookRepository<Book>
     {
 
-        private LibraryContext db;
+        private ILibraryContext db;
 
-        public BookDBRepository(LibraryContext db)
+        public BookDBRepository(ILibraryContext db)
         {
             this.db = db;
         }

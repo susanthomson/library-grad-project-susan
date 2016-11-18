@@ -6,6 +6,7 @@ using LibraryGradProject.DAL;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace LibraryGradProject
 {
@@ -23,8 +24,9 @@ namespace LibraryGradProject
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             // Register types
-            builder.RegisterType<BookDBRepository>().As<IBookRepository<Book>>().WithParameter("db", new LibraryContext()).SingleInstance();
-            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book>>().WithParameter("db", new LibraryContext()).SingleInstance();
+            builder.RegisterType<BookDBRepository>().As<IBookRepository<Book>>().InstancePerRequest();
+            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book>>().InstancePerRequest();
+            builder.RegisterType<LibraryContext>().As<ILibraryContext>().InstancePerRequest();
 
             // Set the dependency resolver to be Autofac
             var container = builder.Build();
