@@ -1,0 +1,31 @@
+.BookList {
+    display: flex;
+    flex-direction: column; 
+}
+
+.Book {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 2;
+}
+
+.ReservedBook {
+    display: flex;
+    flex-direction: row;
+}
+
+.ReserveBlock {
+    display: flex;
+    flex-direction: row;
+}
+
+.ReservedBook .reserved {
+    color: red;
+    margin: 0 5px;
+}
+
+.ReservedBook .available {
+    color: green;
+    margin: 0 5px;
+}
