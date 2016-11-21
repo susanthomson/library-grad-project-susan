@@ -6,10 +6,13 @@ namespace LibraryGradProject.Models
     {
         public int Id { get; set; }
         public int BookId { get; set; }
+        public int UserId { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
 
         [JsonIgnore]
         public virtual Book Book { get; set; }
+        [JsonIgnore]
+        public virtual User user { get; set; }
     }
 }

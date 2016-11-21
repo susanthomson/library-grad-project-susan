@@ -196,6 +196,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611141556536_InitialCreate.cs" />
+    <Compile Include="Migrations\201611141556536_InitialCreate.Designer.cs">
+      <DependentUpon>201611141556536_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611210812258_AddingUserToReservation.cs" />
+    <Compile Include="Migrations\201611210812258_AddingUserToReservation.Designer.cs">
+      <DependentUpon>201611210812258_AddingUserToReservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611210821173_AlterReservationUserToNonNull.cs" />
+    <Compile Include="Migrations\201611210821173_AlterReservationUserToNonNull.Designer.cs">
+      <DependentUpon>201611210821173_AlterReservationUserToNonNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Book.cs" />
@@ -227,6 +240,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611141556536_InitialCreate.resx">
+      <DependentUpon>201611141556536_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611210812258_AddingUserToReservation.resx">
+      <DependentUpon>201611210812258_AddingUserToReservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611210821173_AlterReservationUserToNonNull.resx">
+      <DependentUpon>201611210821173_AlterReservationUserToNonNull.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
