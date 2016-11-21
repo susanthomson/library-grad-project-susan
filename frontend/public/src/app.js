@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const baseUrl = "https://localhost:44312"
+
 class ItemLister extends React.Component {
     constructor() {
         super();
@@ -20,7 +22,7 @@ class ItemLister extends React.Component {
     }
 
     getBooks() {
-        fetch("http://localhost:51918/api/books/")
+        fetch(baseUrl + "/api/books/")
             .then(function(result) {
                 return result.json();
             })
@@ -30,7 +32,7 @@ class ItemLister extends React.Component {
     }
 
     getReservations() {
-        fetch("http://localhost:51918/api/reservations/")
+        fetch(baseUrl + "/api/reservations/")
             .then(function(result) {
                 return result.json();
             })
@@ -90,7 +92,7 @@ class ReserveControl extends React.Component {
   }
 
   handleReserveClick() {
-    fetch("http://localhost:51918/api/reservations", {
+    fetch(baseUrl + "/api/reservations", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -108,7 +110,7 @@ class ReserveControl extends React.Component {
     }
 
     handleReturnClick() {
-        fetch("http://localhost:51918/api/reservations", {
+        fetch(baseUrl + "/api/reservations", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
