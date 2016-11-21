@@ -2,11 +2,11 @@
 
 namespace LibraryGradProject.Repos
 {
-    public interface IReservationRepository<T, U>
+    public interface IReservationRepository<T, U, V>
     {
         T Get(int id);
         IEnumerable<T> GetAll();
-        void Borrow(U entity);
-        void Return(U entity);
+        void Borrow(U entity, V user);
+        void Return(U entity, V user);
     }
 }

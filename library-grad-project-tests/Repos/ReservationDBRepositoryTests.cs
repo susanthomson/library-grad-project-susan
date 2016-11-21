@@ -61,8 +61,9 @@ namespace LibraryGradProjectTests.Repos
             // Arrange
             Book newBook1 = new Book() { Id = 1 };
             Book newBook2 = new Book() { Id = 2 };
-            repo.Borrow(newBook1);
-            repo.Borrow(newBook2);
+            User user = new User() { Id = 1 };
+            repo.Borrow(newBook1, user);
+            repo.Borrow(newBook2, user);
 
             // Act
             IEnumerable<Reservation> reservations = repo.GetAll();
@@ -76,9 +77,10 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
+            User user = new User() { Id = 1 };
 
             // Act
-            repo.Borrow(newBook);
+            repo.Borrow(newBook, user);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert
@@ -93,10 +95,11 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            System.Action borrowBorrowed = () => repo.Borrow(newBook);
+            User user = new User() { Id = 1 };
+            System.Action borrowBorrowed = () => repo.Borrow(newBook, user);
 
             // Act
-            repo.Borrow(newBook);
+            repo.Borrow(newBook, user);
 
             // Asert
             borrowBorrowed.ShouldThrow<System.InvalidOperationException>();
@@ -107,10 +110,11 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
+            User user = new User() { Id = 1 };
 
             // Act
-            repo.Borrow(newBook);
-            repo.Return(newBook);
+            repo.Borrow(newBook, user);
+            repo.Return(newBook, user);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert
@@ -125,10 +129,29 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            System.Action returnUnborrowed = () => repo.Return(newBook);
+            User user = new User() { Id = 1 };
+            System.Action returnUnborrowed = () => repo.Return(newBook, user);
 
             // Asert
-            returnUnborrowed.ShouldThrow<System.InvalidOperationException>();
+            returnUnborrowed.ShouldThrow<System.InvalidOperationException>()
+                .WithMessage("You cannot return a book that has not been borrowed");
+        }
+
+        [Fact]
+        public void Return_Borrowed_By_Other_Throws_Exception()
+        {
+            // Arrange
+            Book newBook = new Book() { Id = 0 };
+            User user = new User() { Id = 1 };
+            User otherUser = new User() { Id = 2 };
+            System.Action returnBorrowedByOther = () => repo.Return(newBook, otherUser);
+
+            // Act
+            repo.Borrow(newBook, user);
+
+            // Asert
+            returnBorrowedByOther.ShouldThrow<System.InvalidOperationException>()
+                .WithMessage("You cannot return a book that someone else borrowed");
         }
 
         [Fact]
@@ -136,11 +159,12 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
+            User user = new User() { Id = 1 };
 
             // Act
-            repo.Borrow(newBook);
-            repo.Return(newBook);
-            repo.Borrow(newBook);
+            repo.Borrow(newBook, user);
+            repo.Return(newBook, user);
+            repo.Borrow(newBook, user);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert

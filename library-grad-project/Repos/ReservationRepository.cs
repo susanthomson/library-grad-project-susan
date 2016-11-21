@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LibraryGradProject.Repos
 {
-    public class ReservationRepository : IReservationRepository<Reservation, Book>
+    public class ReservationRepository
     {
         private List<Reservation> _reservationCollection = new List<Reservation>();
 
