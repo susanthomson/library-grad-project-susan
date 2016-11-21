@@ -12,6 +12,8 @@ namespace LibraryGradProject
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.Filters.Add(new RequireHttpsAttribute());
+
             // Return JSON when we access the api via a web browser
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
