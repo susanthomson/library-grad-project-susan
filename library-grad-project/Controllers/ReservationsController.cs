@@ -11,9 +11,9 @@ namespace LibraryGradProject.Controllers
     [EnableCors(origins: "http://127.0.0.1:3000", headers: "*", methods: "*")]
     public class ReservationsController : ApiController
     {
-        private IReservationRepository<Reservation, Book> _reservationRepo;
+        private IReservationRepository<Reservation, Book, User> _reservationRepo;
         
-        public ReservationsController(IReservationRepository<Reservation, Book> reservationRepository)
+        public ReservationsController(IReservationRepository<Reservation, Book, User> reservationRepository)
         {
             _reservationRepo = reservationRepository;
         }
@@ -35,7 +35,8 @@ namespace LibraryGradProject.Controllers
         {
             try
             {
-                _reservationRepo.Borrow(book);
+                var user = new User() { Id = 1 };
+                _reservationRepo.Borrow(book, user);
                 return new HttpStatusCodeResult(200, "Book borrowed");
             }
             catch (InvalidOperationException e)
@@ -49,7 +50,8 @@ namespace LibraryGradProject.Controllers
         {
             try
             {
-                _reservationRepo.Return(book);
+                var user = new User() { Id = 1 };
+                _reservationRepo.Return(book, user);
                 return new HttpStatusCodeResult(200, "Book returned");
             }
             catch (InvalidOperationException e)

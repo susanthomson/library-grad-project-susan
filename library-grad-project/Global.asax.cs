@@ -25,7 +25,7 @@ namespace LibraryGradProject
 
             // Register types
             builder.RegisterType<BookDBRepository>().As<IBookRepository<Book>>().InstancePerRequest();
-            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book>>().InstancePerRequest();
+            builder.RegisterType<ReservationDBRepository>().As<IReservationRepository<Reservation, Book, User>>().InstancePerRequest();
             builder.RegisterType<LibraryContext>().As<ILibraryContext>().InstancePerRequest();
 
             // Set the dependency resolver to be Autofac
