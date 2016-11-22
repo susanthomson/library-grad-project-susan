@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Http.Cors;
+using System.Diagnostics;
 
 namespace LibraryGradProject.Controllers
 {
-    [EnableCors(origins: "http://127.0.0.1:3000", headers: "*", methods: "*")]
     public class ReservationsController : ApiController
     {
         private IReservationRepository<Reservation, Book, User> _reservationRepo;
@@ -27,12 +27,18 @@ namespace LibraryGradProject.Controllers
         // GET api/reservations/{int}
         public Reservation Get(int id)
         {
+            Debug.WriteLine("AuthenticationType:" + User.Identity.AuthenticationType);
+            Debug.WriteLine("IsAuthenticated:" + User.Identity.IsAuthenticated);
+            Debug.WriteLine("Name:" + User.Identity.Name);
             return _reservationRepo.Get(id);
         }
 
         // POST api/reservations
         public HttpStatusCodeResult Post(Book book)
         {
+            Debug.WriteLine("AuthenticationType:" + User.Identity.AuthenticationType);
+            Debug.WriteLine("IsAuthenticated:" + User.Identity.IsAuthenticated);
+            Debug.WriteLine("Name:" + User.Identity.Name);
             try
             {
                 var user = new User() { Id = 1 };
