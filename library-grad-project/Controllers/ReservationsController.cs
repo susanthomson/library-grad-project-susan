@@ -27,21 +27,15 @@ namespace LibraryGradProject.Controllers
         // GET api/reservations/{int}
         public Reservation Get(int id)
         {
-            Debug.WriteLine("AuthenticationType:" + User.Identity.AuthenticationType);
-            Debug.WriteLine("IsAuthenticated:" + User.Identity.IsAuthenticated);
-            Debug.WriteLine("Name:" + User.Identity.Name);
             return _reservationRepo.Get(id);
         }
 
         // POST api/reservations
         public HttpStatusCodeResult Post(Book book)
         {
-            Debug.WriteLine("AuthenticationType:" + User.Identity.AuthenticationType);
-            Debug.WriteLine("IsAuthenticated:" + User.Identity.IsAuthenticated);
-            Debug.WriteLine("Name:" + User.Identity.Name);
             try
             {
-                var user = new User() { Id = 1 };
+                var user = new User() { Name = User.Identity.Name };
                 _reservationRepo.Borrow(book, user);
                 return new HttpStatusCodeResult(200, "Book borrowed");
             }
@@ -56,7 +50,7 @@ namespace LibraryGradProject.Controllers
         {
             try
             {
-                var user = new User() { Id = 1 };
+                var user = new User() { Name = User.Identity.Name };
                 _reservationRepo.Return(book, user);
                 return new HttpStatusCodeResult(200, "Book returned");
             }

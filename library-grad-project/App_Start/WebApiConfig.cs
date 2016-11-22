@@ -9,7 +9,7 @@ namespace LibraryGradProject
         public static void Register(HttpConfiguration config)
         {
             var cors = new EnableCorsAttribute(origins: "http://127.0.0.1:3000", headers: "*", methods: "*");
-            //cors.SupportsCredentials = true;
+            cors.SupportsCredentials = true;
             config.EnableCors(cors);
 
             // Web API routes

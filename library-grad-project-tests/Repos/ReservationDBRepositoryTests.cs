@@ -15,12 +15,16 @@ namespace LibraryGradProjectTests.Repos
 
         List<Reservation> data;
         Mock<DbSet<Reservation>> mockReservationSet;
+        List<User> users;
+        Mock<DbSet<User>> mockUserSet;
         Mock<LibraryContext> mockContext;
         ReservationDBRepository repo;
+        User userAlice = new User() { Name = "Alice" };
 
         public ReservationDBRepositoryTests()
         {
             data = new List<Reservation>();
+            users = new List<User>();
 
             mockReservationSet = new Mock<DbSet<Reservation>>();
             mockReservationSet.As<IQueryable<Reservation>>().Setup(m => m.Provider).Returns(() => data.AsQueryable().Provider);
@@ -30,15 +34,26 @@ namespace LibraryGradProjectTests.Repos
             mockReservationSet.Setup(m => m.Add(It.IsAny<Reservation>())).Callback<Reservation>((Reservation r) => data.Add(r));
             mockReservationSet.Setup(m => m.Remove(It.IsAny<Reservation>())).Callback<Reservation>((Reservation r) => data.Remove(r));
 
+            mockUserSet = new Mock<DbSet<User>>();
+            mockUserSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(() => users.AsQueryable().Provider);
+            mockUserSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(() => users.AsQueryable().Expression);
+            mockUserSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(() => users.AsQueryable().ElementType);
+            mockUserSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(() => users.GetEnumerator());
+            mockUserSet.Setup(m => m.Add(It.IsAny<User>())).Callback<User>((User u) => users.Add(u)).Returns((User u) => { u.Id = users.IndexOf(u); return u; });
+
             mockContext = new Mock<LibraryContext>();
             mockContext.Setup(m => m.Reservations).Returns(mockReservationSet.Object);
+            mockContext.Setup(m => m.Users).Returns(mockUserSet.Object);
             repo = new ReservationDBRepository(mockContext.Object);
+
         }
 
         public void Dispose()
         {
             data = null;
             mockReservationSet = null;
+            users = null;
+            mockUserSet = null;
             mockContext = null;
             repo = null;
         }
@@ -61,9 +76,8 @@ namespace LibraryGradProjectTests.Repos
             // Arrange
             Book newBook1 = new Book() { Id = 1 };
             Book newBook2 = new Book() { Id = 2 };
-            User user = new User() { Id = 1 };
-            repo.Borrow(newBook1, user);
-            repo.Borrow(newBook2, user);
+            repo.Borrow(newBook1, userAlice);
+            repo.Borrow(newBook2, userAlice);
 
             // Act
             IEnumerable<Reservation> reservations = repo.GetAll();
@@ -77,10 +91,9 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
 
             // Act
-            repo.Borrow(newBook, user);
+            repo.Borrow(newBook, userAlice);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert
@@ -95,11 +108,10 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
-            System.Action borrowBorrowed = () => repo.Borrow(newBook, user);
+            System.Action borrowBorrowed = () => repo.Borrow(newBook, userAlice);
 
             // Act
-            repo.Borrow(newBook, user);
+            repo.Borrow(newBook, userAlice);
 
             // Asert
             borrowBorrowed.ShouldThrow<System.InvalidOperationException>();
@@ -110,11 +122,10 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
 
             // Act
-            repo.Borrow(newBook, user);
-            repo.Return(newBook, user);
+            repo.Borrow(newBook, userAlice);
+            repo.Return(newBook, userAlice);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert
@@ -129,8 +140,7 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
-            System.Action returnUnborrowed = () => repo.Return(newBook, user);
+            System.Action returnUnborrowed = () => repo.Return(newBook, userAlice);
 
             // Asert
             returnUnborrowed.ShouldThrow<System.InvalidOperationException>()
@@ -142,12 +152,11 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
-            User otherUser = new User() { Id = 2 };
-            System.Action returnBorrowedByOther = () => repo.Return(newBook, otherUser);
+            User userBob = new User() { Name = "Bob" };
+            System.Action returnBorrowedByOther = () => repo.Return(newBook, userBob);
 
             // Act
-            repo.Borrow(newBook, user);
+            repo.Borrow(newBook, userAlice);
 
             // Asert
             returnBorrowedByOther.ShouldThrow<System.InvalidOperationException>()
@@ -159,12 +168,12 @@ namespace LibraryGradProjectTests.Repos
         {
             // Arrange
             Book newBook = new Book() { Id = 0 };
-            User user = new User() { Id = 1 };
+            User userBob = new User() { Name = "Bob" };
 
             // Act
-            repo.Borrow(newBook, user);
-            repo.Return(newBook, user);
-            repo.Borrow(newBook, user);
+            repo.Borrow(newBook, userAlice);
+            repo.Return(newBook, userAlice);
+            repo.Borrow(newBook, userBob);
             IEnumerable<Reservation> reservations = repo.GetAll();
 
             // Asert

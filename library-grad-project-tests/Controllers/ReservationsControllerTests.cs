@@ -2,6 +2,8 @@
 using LibraryGradProject.Models;
 using LibraryGradProject.Repos;
 using Moq;
+using System.Security.Principal;
+using System.Web.Http.Controllers;
 using Xunit;
 
 namespace LibraryGradProjectTests.Controllers
@@ -44,7 +46,17 @@ namespace LibraryGradProjectTests.Controllers
             // Arrange
             var mockRepo = new Mock<IReservationRepository<Reservation, Book, User>>();
             mockRepo.Setup(mock => mock.Borrow(It.IsAny<Book>(), It.IsAny<User>()));
-            ReservationsController controller = new ReservationsController(mockRepo.Object);
+
+            Mock<IPrincipal> mockPrincipal = new Mock<IPrincipal>();
+            mockPrincipal.SetupGet(p => p.Identity.Name).Returns("Alice");
+
+            var requestContext = new Mock<HttpRequestContext>();
+            requestContext.Setup(x => x.Principal).Returns(mockPrincipal.Object);
+
+            ReservationsController controller = new ReservationsController(mockRepo.Object)
+            {
+                RequestContext = requestContext.Object
+            };
 
             Book newBook = new Book() { Id = 0 };
 
@@ -52,7 +64,7 @@ namespace LibraryGradProjectTests.Controllers
             controller.Post(newBook);
 
             // Assert
-            mockRepo.Verify(mock => mock.Borrow(It.Is<Book>(b => b == newBook), It.IsAny<User>()), Times.Once);
+            mockRepo.Verify(mock => mock.Borrow(It.Is<Book>(b => b == newBook), It.Is<User>(u => u.Name == "Alice")), Times.Once);
         }
 
         [Fact]
@@ -61,7 +73,16 @@ namespace LibraryGradProjectTests.Controllers
             // Arrange
             var mockRepo = new Mock<IReservationRepository<Reservation, Book, User>>();
             mockRepo.Setup(mock => mock.Return(It.IsAny<Book>(), It.IsAny<User>()));
-            ReservationsController controller = new ReservationsController(mockRepo.Object);
+            Mock<IPrincipal> mockPrincipal = new Mock<IPrincipal>();
+            mockPrincipal.SetupGet(p => p.Identity.Name).Returns("Alice");
+
+            var requestContext = new Mock<HttpRequestContext>();
+            requestContext.Setup(x => x.Principal).Returns(mockPrincipal.Object);
+
+            ReservationsController controller = new ReservationsController(mockRepo.Object)
+            {
+                RequestContext = requestContext.Object
+            };
 
             Book newBook = new Book() { Id = 0 };
 
@@ -69,7 +90,7 @@ namespace LibraryGradProjectTests.Controllers
             controller.Put(newBook);
 
             // Assert
-            mockRepo.Verify(mock => mock.Return(It.Is<Book>(b => b == newBook), It.IsAny<User>()), Times.Once);
+            mockRepo.Verify(mock => mock.Return(It.Is<Book>(b => b == newBook), It.Is<User>(u => u.Name == "Alice")), Times.Once);
         }
     }
 }
