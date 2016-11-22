@@ -190,6 +190,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Migrations\201611221546545_CoverImage.cs" />
+    <Compile Include="Migrations\201611221546545_CoverImage.Designer.cs">
+      <DependentUpon>201611221546545_CoverImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Repos\UserDBRepository.cs" />
     <Compile Include="Repos\IUserRepository.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
@@ -254,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611210821173_AlterReservationUserToNonNull.resx">
       <DependentUpon>201611210821173_AlterReservationUserToNonNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611221546545_CoverImage.resx">
+      <DependentUpon>201611221546545_CoverImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
