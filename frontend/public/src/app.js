@@ -6,10 +6,11 @@ const baseUrl = "https://localhost:44312"
 class ItemLister extends React.Component {
     constructor() {
         super();
-        this.state = { books: [], reservations: [] };
+        this.state = { books: [], reservations: [], userId: null };
     }
     
     componentDidMount() {
+        this.getUserId();
         this.getData();
         this.timerID = setInterval(
             () => this.getData(),
@@ -19,6 +20,16 @@ class ItemLister extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.timerID);
+    }
+
+    getUserId() {
+        fetch(baseUrl + "/api/users/", {credentials : "include"})
+            .then(function(result) {
+                return result.json();
+            })
+            .then(result=> {
+                this.setState({userId:result});
+            });    
     }
 
     getBooks() {
@@ -49,16 +60,20 @@ class ItemLister extends React.Component {
     render() {
         return(
             <div>
-                <div>Books:</div>
+                <div>Books: {this.state.userId}</div>
                 <div className="BookList">
                     { this.state.books.map(book=> {
-                        var isReserved = this.state.reservations.filter(reservation=> {
+                        var bookReserved = this.state.reservations.filter(reservation=> {
                             return reservation.BookId === book.Id && reservation.EndDate === null;
+                        });
+                        var isReserved = bookReserved.length;
+                        var isReservedByUser = bookReserved.filter(reservation=> {
+                            return reservation.UserId === this.state.userId;    
                         }).length;
                         return (
                             <div className="ReservedBook" key={book.Id}>
                                 <Book book={book} />
-                                <Reserve isReserved={isReserved} bookId={book.Id}/>
+                                <Reserve isReserved={isReserved} isReservedByUser={isReservedByUser} bookId={book.Id}/>
                             </div>
                         );
                     }) }
@@ -129,10 +144,12 @@ class ReserveControl extends React.Component {
 
     render() {
         let button = null;
-        if (this.props.isReserved) {
+        if (this.props.isReservedByUser) {
             button = <ReturnButton onClick={this.handleReturnClick}/>;
+        } else if (!this.props.isReserved){
+            button = <ReserveButton onClick={this.handleReserveClick}/>;
         } else {
-            button = <ReserveButton onClick={this.handleReserveClick} bookId={this.props.bookId} />;
+            button = <button>lol</button>
         }
 
     return (
@@ -158,7 +175,7 @@ function Reserve(props) {
     return (
         <div className="ReserveBlock">
             <div className={props.isReserved ? "reserved" : "available"}> {props.isReserved ? "reserved" : "available"} </div>
-            <ReserveControl isReserved={props.isReserved} bookId={props.bookId}/>
+            <ReserveControl isReserved={props.isReserved} isReservedByUser={props.isReservedByUser} bookId={props.bookId}/>
         </div>   
     );
 }

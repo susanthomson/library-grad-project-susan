@@ -29,3 +29,8 @@
     color: green;
     margin: 0 5px;
 }
+
+marquee {
+    color: deeppink;
+    background: radial-gradient(red, yellow, green);
+}
