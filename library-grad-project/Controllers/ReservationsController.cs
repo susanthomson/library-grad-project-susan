@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Http.Cors;
+using System.Diagnostics;
 
 namespace LibraryGradProject.Controllers
 {
-    [EnableCors(origins: "http://127.0.0.1:3000", headers: "*", methods: "*")]
     public class ReservationsController : ApiController
     {
         private IReservationRepository<Reservation, Book, User> _reservationRepo;
@@ -35,7 +35,7 @@ namespace LibraryGradProject.Controllers
         {
             try
             {
-                var user = new User() { Id = 1 };
+                var user = new User() { Name = User.Identity.Name };
                 _reservationRepo.Borrow(book, user);
                 return new HttpStatusCodeResult(200, "Book borrowed");
             }
@@ -50,7 +50,7 @@ namespace LibraryGradProject.Controllers
         {
             try
             {
-                var user = new User() { Id = 1 };
+                var user = new User() { Name = User.Identity.Name };
                 _reservationRepo.Return(book, user);
                 return new HttpStatusCodeResult(200, "Book returned");
             }

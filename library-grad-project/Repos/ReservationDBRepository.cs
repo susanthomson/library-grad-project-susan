@@ -22,7 +22,7 @@ namespace LibraryGradProject.Repos
                 Add(new Reservation()
                 {
                     BookId = book.Id,
-                    UserId = user.Id,
+                    UserId = GetUserId(user.Name),
                     StartDate = System.DateTime.Now.ToString()
                 });
             }
@@ -38,7 +38,8 @@ namespace LibraryGradProject.Repos
                 .Where(reservation => reservation.BookId == book.Id && reservation.EndDate == null).SingleOrDefault();
             if (reservationToReturn != null)
             {
-                if (reservationToReturn.UserId != user.Id)
+                var userId = GetUserId(user.Name);
+                if (reservationToReturn.UserId != userId)
                 {
                     throw new System.InvalidOperationException("You cannot return a book that someone else borrowed");
                 }
@@ -68,6 +69,20 @@ namespace LibraryGradProject.Repos
         public Reservation Get(int id)
         {
             return db.Reservations.Where(reservation => reservation.Id == id).SingleOrDefault();
+        }
+
+        private int GetUserId(string name)
+        {
+            User foundUser = db.Users
+                .Where(user => user.Name == name).SingleOrDefault();
+            if (foundUser != null)
+            {
+                return foundUser.Id;
+            } else
+            {
+                var addedUser = db.Users.Add(new User() { Name = name });
+                return addedUser.Id;
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ class ItemLister extends React.Component {
     }
 
     getBooks() {
-        fetch(baseUrl + "/api/books/")
+        fetch(baseUrl + "/api/books/", {credentials : "include"})
             .then(function(result) {
                 return result.json();
             })
@@ -32,7 +32,7 @@ class ItemLister extends React.Component {
     }
 
     getReservations() {
-        fetch(baseUrl + "/api/reservations/")
+        fetch(baseUrl + "/api/reservations/", {credentials : "include"})
             .then(function(result) {
                 return result.json();
             })

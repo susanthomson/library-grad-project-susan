@@ -8,6 +8,7 @@ namespace LibraryGradProject.DAL
 
         DbSet<Book> Books { get; set; }
         DbSet<Reservation> Reservations { get; set; }
+        DbSet<User> Users { get; set; }
         int SaveChanges();
     }
 }

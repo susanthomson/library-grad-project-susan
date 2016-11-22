@@ -7,7 +7,6 @@ using System.Web.Http.Cors;
 
 namespace LibraryGradProject.Controllers
 {
-    [EnableCors(origins: "http://127.0.0.1:3000", headers: "*", methods: "*")]
     public class BooksController : ApiController
     {
         private IBookRepository<Book> _bookRepo;
