@@ -102,10 +102,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\UsersControllerTests.cs" />
     <Compile Include="Controllers\ReservationsControllerTests.cs" />
     <Compile Include="Controllers\BooksControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\BookDBRepositoryTests.cs" />
+    <Compile Include="Repos\UserDBRepositoryTests.cs" />
     <Compile Include="Repos\ReservationDBRepositoryTests.cs" />
     <Compile Include="Repos\ReservationRepositoryTests.cs" />
     <Compile Include="Repos\FilledBookRepositoryTests.cs" />

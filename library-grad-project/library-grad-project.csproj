@@ -189,6 +189,9 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Repos\UserDBRepository.cs" />
+    <Compile Include="Repos\IUserRepository.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
