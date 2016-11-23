@@ -1,36 +1,37 @@
-.BookList {
-    display: flex;
-    flex-direction: column; 
-}
-
 .Book {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex: 2;
-}
-
-.ReservedBook {
-    display: flex;
+    display:flex;
     flex-direction: row;
 }
 
-.ReserveBlock {
+.BookCoverImage {
+    max-height: 100%;
+    width: 100%;
+    height: auto;
+}
+
+.BookCoverBox {
     display: flex;
-    flex-direction: row;
+    flex: 20;
+    padding: 20px;
+    align-items: center;
 }
 
-.ReservedBook .reserved {
-    color: red;
-    margin: 0 5px;
+.BookDetails {
+    flex: 80;
 }
 
-.ReservedBook .available {
-    color: green;
-    margin: 0 5px;
+@keyframes opaque-shake {
+    0%, 100% {transform: translateX(0); opacity: 0.2; transform: scale(1);}
+    15%, 55%, 95% {transform: scale(1.5);}
+    10%, 30%, 50%, 70%, 90% {transform: translateX(-20px); opacity: 1;}
+    20%, 40%, 60%, 80% {transform: translateX(20px); opacity: 0.2;}
 }
 
 marquee {
     color: deeppink;
     background: radial-gradient(red, yellow, green);
+    text-shadow: 2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink;
+    animation-name: opaque-shake;
+    animation-duration: 200s;
+    animation-iteration-count: infinite;
 }

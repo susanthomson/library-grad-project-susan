@@ -1,5 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import {List, ListItem} from 'material-ui/List';
+import NewBookForm from './NewBookForm.js';
+
+injectTapEventPlugin();
 
 const baseUrl = "https://localhost:44312"
 
@@ -59,43 +67,35 @@ class ItemLister extends React.Component {
     
     render() {
         return(
-            <div>
-                <div>Books: {this.state.userId}</div>
-                <div className="BookList">
-                    { this.state.books.map(book=> {
-                        var bookReserved = this.state.reservations.filter(reservation=> {
-                            return reservation.BookId === book.Id && reservation.EndDate === null;
-                        });
-                        var isReserved = bookReserved.length;
-                        var isReservedByUser = bookReserved.filter(reservation=> {
-                            return reservation.UserId === this.state.userId;    
-                        }).length;
-                        return (
-                            <div className="ReservedBook" key={book.Id}>
-                                <Book book={book} />
-                                <Reserve isReserved={isReserved} isReservedByUser={isReservedByUser} bookId={book.Id}/>
-                            </div>
-                        );
-                    }) }
-                </div>  
-            </div>  
+            <div className="BookList">
+                { this.state.books.map(book=> {
+                    var bookReserved = this.state.reservations.filter(reservation=> {
+                        return reservation.BookId === book.Id && reservation.EndDate === null;
+                    });
+                    var isReserved = bookReserved.length;
+                    var isReservedByUser = bookReserved.filter(reservation=> {
+                        return reservation.UserId === this.state.userId;    
+                    }).length;
+                    return (
+                            <Book key={book.Id} book={book} isReserved={isReserved} isReservedByUser={isReservedByUser}/>
+                    );
+                }) }
+                <NewBookForm
+                />
+            </div>
         );
     }
 }
 
 function ReserveButton(props) {
   return (
-    <button onClick={props.onClick}>
-      Reserve
-    </button>
+    <RaisedButton onClick={props.onClick} label="Reserve" primary={true} />
   );
 }
 
 function ReturnButton(props) {
   return (
-    <button onClick={props.onClick}>
-      Return
-    </button>
+    <RaisedButton onClick={props.onClick} label="Return" primary={true} />
   );
 }
 
@@ -149,7 +149,7 @@ class ReserveControl extends React.Component {
         } else if (!this.props.isReserved){
             button = <ReserveButton onClick={this.handleReserveClick}/>;
         } else {
-            button = <button>lol</button>
+            button = <RaisedButton label="Reserved" disabled={true} />
         }
 
     return (
@@ -162,12 +162,22 @@ class ReserveControl extends React.Component {
 
 function Book(props) {
     return (
-        <div className="Book">
-            <div>{props.book.ISBN}</div>
-            <div>{props.book.Title}</div>
-            <div>{props.book.Author}</div>
-            <div>{props.book.PublishDate}</div>
-        </div>
+        <Paper>
+            <div className="Book">
+                <div className="BookCoverBox">
+                    <img className="BookCoverImage" src={props.book.CoverImage} />
+                </div>
+                <div className="BookDetails">
+                    <List>
+                        <ListItem primaryText={props.book.Title} secondaryText="Title" disabled={true} />
+                        <ListItem primaryText={props.book.Author} secondaryText="Author" disabled={true} />
+                        <ListItem primaryText={props.book.ISBN} secondaryText="ISBN" disabled={true} />
+                        <ListItem primaryText={props.book.PublishDate} secondaryText="Date Published" disabled={true} />
+                    </List>
+                    <ReserveControl isReserved={props.isReserved} isReservedByUser={props.isReservedByUser} bookId={props.book.Id}/>
+                </div>
+            </div>
+        </Paper>
     );
 }
 
@@ -180,7 +190,7 @@ function Reserve(props) {
     );
 }
 
-const element = <ItemLister />;
+const element = <MuiThemeProvider><ItemLister /></MuiThemeProvider>;
 
 ReactDOM.render(
     element,
