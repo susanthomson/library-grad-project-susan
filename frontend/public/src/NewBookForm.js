@@ -9,11 +9,12 @@ export default class NewBookForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {title: "", author: "", isbn: "", date: null};
+    this.state = {title: "", author: "", isbn: "", cover: "", date: null};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleChange(event) {
@@ -25,7 +26,13 @@ export default class NewBookForm extends React.Component {
   }
 
   handleSubmit(event) {
+    this.props.onFinish();
     alert("Book is " + this.state.title + " by " + this.state.author + " published on " + this.state.date);
+    event.preventDefault();
+  }
+
+  handleCancel(event) {
+    this.props.onFinish();
     event.preventDefault();
   }
 
@@ -35,37 +42,60 @@ export default class NewBookForm extends React.Component {
     if (isbn && (isbn.isIsbn10() || isbn.isIsbn13())) {
       validISBN = true;
     }
+    const validBook = validISBN && Object.keys(this.state).every(
+      (key) => this.state[key]);
     return (
-      <form onSubmit={this.handleSubmit}>
-        <TextField
-          floatingLabelText="Title"
-          onChange={this.handleChange}
-          id="title"
-        />
-        <TextField
-          floatingLabelText="Author"
-          onChange={this.handleChange}
-          id="author"
-        />
-        <TextField
-          errorText={!validISBN && "Invalid ISBN"}
-          floatingLabelText="ISBN"
-          onChange={this.handleChange}
-          id="isbn"
-        />
-        <DatePicker
-          formatDate={function (date) {
-            return moment(date).format("D MMMM YYYY");
-          }}
-          onChange={this.handleDateChange}
-          id="date"
-        />
-        <FlatButton
-          label="Submit"
-          primary={true}
-          onTouchTap={this.handleSubmit}
-        />
-      </form>
+      <div>
+        <div className="Book">
+          <div className="BookCoverBox">
+              <img className="BookCoverImage" src={this.state.cover || "defaultCover.svg"} />
+          </div>       
+          <div className="BookDetails">
+            <TextField
+              floatingLabelText="Title"
+              onChange={this.handleChange}
+              id="title"
+            /><br />
+            <TextField
+              floatingLabelText="Author"
+              onChange={this.handleChange}
+              id="author"
+            /><br />
+            <TextField
+              errorText={!validISBN && "Invalid ISBN"}
+              floatingLabelText="ISBN"
+              onChange={this.handleChange}
+              id="isbn"
+            /><br />
+            <DatePicker
+              hintText="Publication Date"
+              formatDate={function (date) {
+                return moment(date).format("D MMMM YYYY");
+              }}
+              onChange={this.handleDateChange}
+              id="date"
+            /><br />
+            <TextField
+              floatingLabelText="Cover Image"
+              onChange={this.handleChange}
+              id="cover"
+            />
+          </div>
+        </div>
+        <div className="right-justify">
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            onTouchTap={this.handleCancel}
+          />
+          <FlatButton
+            label="Submit"
+            primary={true}
+            onTouchTap={this.handleSubmit}
+            disabled={!validBook}
+          />
+        </div>
+      </div>
     );
   }
 }

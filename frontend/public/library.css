@@ -20,6 +20,12 @@
     flex: 80;
 }
 
+.right-justify {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 @keyframes opaque-shake {
     0%, 100% {transform: translateX(0); opacity: 0.2; transform: scale(1);}
     15%, 55%, 95% {transform: scale(1.5);}
@@ -32,6 +38,6 @@ marquee {
     background: radial-gradient(red, yellow, green);
     text-shadow: 2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink;
     animation-name: opaque-shake;
-    animation-duration: 200s;
+    animation-duration: 20s;
     animation-iteration-count: infinite;
 }
