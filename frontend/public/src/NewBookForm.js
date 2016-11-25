@@ -9,12 +9,14 @@ export default class NewBookForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {title: "", author: "", isbn: "", cover: "", date: null};
+    this.state = {title: "", author: "", isbn: "", cover: "", date: ""};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+
+    this.baseUrl = "https://localhost:44312";
   }
 
   handleChange(event) {
@@ -26,6 +28,25 @@ export default class NewBookForm extends React.Component {
   }
 
   handleSubmit(event) {
+      fetch(this.baseUrl + "/api/books", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              "Title": this.state.title,
+              "Author": this.state.author,
+              "ISBN": this.state.isbn,
+              "PublishDate": this.state.date,
+              "CoverImage": this.state.cover
+          })
+      })
+      .then(function(result) {
+          return result.json();
+      })
+      .then(result=> {
+          console.log(result);
+      });
     this.props.onFinish();
     alert("Book is " + this.state.title + " by " + this.state.author + " published on " + this.state.date);
     event.preventDefault();
@@ -37,9 +58,9 @@ export default class NewBookForm extends React.Component {
   }
 
   render() {
-    const isbn = window.ISBN.parse(this.state.isbn); //why is this on window?
+    const bookISBN = window.ISBN.parse(this.state.isbn); //why is this on window?
     var validISBN = false;
-    if (isbn && (isbn.isIsbn10() || isbn.isIsbn13())) {
+    if (bookISBN && (bookISBN.isIsbn10() || bookISBN.isIsbn13())) {
       validISBN = true;
     }
     const validBook = validISBN && Object.keys(this.state).every(

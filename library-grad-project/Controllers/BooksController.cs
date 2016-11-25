@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Mvc;
 
 namespace LibraryGradProject.Controllers
 {
@@ -29,9 +30,10 @@ namespace LibraryGradProject.Controllers
         }
 
         // POST api/values
-        public void Post(Book newBook)
+        public HttpStatusCodeResult Post(Book newBook)
         {
             _bookRepo.Add(newBook);
+            return new HttpStatusCodeResult(200, "Book added");
         }
         
         // DELETE api/values/{int}
