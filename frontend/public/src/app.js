@@ -1,186 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-const baseUrl = "https://localhost:44312"
+import {grey400, grey500, grey700, greenA200} from 'material-ui/styles/colors';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-class ItemLister extends React.Component {
-    constructor() {
-        super();
-        this.state = { books: [], reservations: [], userId: null };
-    }
-    
-    componentDidMount() {
-        this.getUserId();
-        this.getData();
-        this.timerID = setInterval(
-            () => this.getData(),
-            1000
-        );
-    }
+import BookList from './BookList.js';
+import LibraryAppBar from './LibraryAppBar.js';
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
+injectTapEventPlugin();
 
-    getUserId() {
-        fetch(baseUrl + "/api/users/", {credentials : "include"})
-            .then(function(result) {
-                return result.json();
-            })
-            .then(result=> {
-                this.setState({userId:result});
-            });    
-    }
-
-    getBooks() {
-        fetch(baseUrl + "/api/books/", {credentials : "include"})
-            .then(function(result) {
-                return result.json();
-            })
-            .then(result=> {
-                this.setState({books:result});
-            });    
-    }
-
-    getReservations() {
-        fetch(baseUrl + "/api/reservations/", {credentials : "include"})
-            .then(function(result) {
-                return result.json();
-            })
-            .then(result=> {
-                this.setState({reservations:result});
-            });    
-    }
-
-    getData() {
-        this.getBooks();
-        this.getReservations();
-    } 
-    
-    render() {
-        return(
-            <div>
-                <div>Books: {this.state.userId}</div>
-                <div className="BookList">
-                    { this.state.books.map(book=> {
-                        var bookReserved = this.state.reservations.filter(reservation=> {
-                            return reservation.BookId === book.Id && reservation.EndDate === null;
-                        });
-                        var isReserved = bookReserved.length;
-                        var isReservedByUser = bookReserved.filter(reservation=> {
-                            return reservation.UserId === this.state.userId;    
-                        }).length;
-                        return (
-                            <div className="ReservedBook" key={book.Id}>
-                                <Book book={book} />
-                                <Reserve isReserved={isReserved} isReservedByUser={isReservedByUser} bookId={book.Id}/>
-                            </div>
-                        );
-                    }) }
-                </div>  
-            </div>  
-        );
-    }
-}
-
-function ReserveButton(props) {
-  return (
-    <button onClick={props.onClick}>
-      Reserve
-    </button>
-  );
-}
-
-function ReturnButton(props) {
-  return (
-    <button onClick={props.onClick}>
-      Return
-    </button>
-  );
-}
-
-class ReserveControl extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleReserveClick = this.handleReserveClick.bind(this);
-    this.handleReturnClick = this.handleReturnClick.bind(this);
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: grey500,
+    primary2Color: grey700,
+    primary3Color: grey400,
+    pickerHeaderColor: grey500,
+    alternateTextColor: greenA200,
   }
+});
 
-  handleReserveClick() {
-    fetch(baseUrl + "/api/reservations", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "Id": this.props.bookId
-            })
-        })
-        .then(function(result) {
-            return result.json();
-        })
-        .then(result=> {
-            console.log(result);
-        });
-    }
-
-    handleReturnClick() {
-        fetch(baseUrl + "/api/reservations", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "Id": this.props.bookId
-                })
-            })
-            .then(function(result) {
-                return result.json();
-            })
-            .then(result=> {
-                console.log(result);
-            }); 
-    }
-
-    render() {
-        let button = null;
-        if (this.props.isReservedByUser) {
-            button = <ReturnButton onClick={this.handleReturnClick}/>;
-        } else if (!this.props.isReserved){
-            button = <ReserveButton onClick={this.handleReserveClick}/>;
-        } else {
-            button = <button>lol</button>
-        }
-
+function App (props) {
     return (
-      <div>
-        {button}
-      </div>
-    );
-  }
-}
-
-function Book(props) {
-    return (
-        <div className="Book">
-            <div>{props.book.ISBN}</div>
-            <div>{props.book.Title}</div>
-            <div>{props.book.Author}</div>
-            <div>{props.book.PublishDate}</div>
+        <div>
+            <LibraryAppBar />
+            <BookList />
         </div>
-    );
+    );    
 }
 
-function Reserve(props) {
-    return (
-        <div className="ReserveBlock">
-            <div className={props.isReserved ? "reserved" : "available"}> {props.isReserved ? "reserved" : "available"} </div>
-            <ReserveControl isReserved={props.isReserved} isReservedByUser={props.isReservedByUser} bookId={props.bookId}/>
-        </div>   
-    );
-}
-
-const element = <ItemLister />;
+const element = <MuiThemeProvider muiTheme={muiTheme}><App /></MuiThemeProvider>;
 
 ReactDOM.render(
     element,
