@@ -33,11 +33,19 @@
     20%, 40%, 60%, 80% {transform: translateX(20px); opacity: 0.2;}
 }
 
+@keyframes spin { 100% {transform:rotate(360deg); } }
+
+.spin {
+    animation: spin 200ms linear infinite;
+    height: 50px;
+    width: auto;
+}
+
 marquee {
     color: deeppink;
     background: radial-gradient(red, yellow, green);
     text-shadow: 2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink,2px 2px 5px deeppink;
     animation-name: opaque-shake;
-    animation-duration: 20s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }

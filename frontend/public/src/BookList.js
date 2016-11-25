@@ -149,6 +149,7 @@ class ReserveControl extends React.Component {
         {button}
       </div>
     );
+    
   }
 }
 
@@ -170,14 +171,5 @@ function Book(props) {
                 </div>
             </div>
         </Paper>
-    );
-}
-
-function Reserve(props) {
-    return (
-        <div className="ReserveBlock">
-            <div className={props.isReserved ? "reserved" : "available"}> {props.isReserved ? "reserved" : "available"} </div>
-            <ReserveControl isReserved={props.isReserved} isReservedByUser={props.isReservedByUser} bookId={props.bookId}/>
-        </div>   
     );
 }

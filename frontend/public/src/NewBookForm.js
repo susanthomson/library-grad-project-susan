@@ -9,7 +9,7 @@ export default class NewBookForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {title: "", author: "", isbn: "", cover: "", date: ""};
+    this.state = {book: {Title: "", Author: "", ISBN: "", CoverImage: "", PublishDate: ""}};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -20,11 +20,19 @@ export default class NewBookForm extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({[event.target.id]: event.target.value});
+    const property = event.target.id;
+    const value = event.target.value;
+    this.setState(previousState=>{
+      previousState.book[property] = value;
+      return previousState
+    });
   }
 
   handleDateChange(event, date) {
-    this.setState({date: moment(date).format("D MMMM YYYY")});
+    this.setState(previousState=>{
+      previousState.book.PublishDate = moment(date).format("D MMMM YYYY");
+      return previousState
+    });
   }
 
   handleSubmit(event) {
@@ -33,13 +41,7 @@ export default class NewBookForm extends React.Component {
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-              "Title": this.state.title,
-              "Author": this.state.author,
-              "ISBN": this.state.isbn,
-              "PublishDate": this.state.date,
-              "CoverImage": this.state.cover
-          })
+          body: JSON.stringify(this.state.book)
       })
       .then(function(result) {
           return result.json();
@@ -48,7 +50,6 @@ export default class NewBookForm extends React.Component {
           console.log(result);
       });
     this.props.onFinish();
-    alert("Book is " + this.state.title + " by " + this.state.author + " published on " + this.state.date);
     event.preventDefault();
   }
 
@@ -58,35 +59,35 @@ export default class NewBookForm extends React.Component {
   }
 
   render() {
-    const bookISBN = window.ISBN.parse(this.state.isbn); //why is this on window?
+    const bookISBN = window.ISBN.parse(this.state.book.ISBN); //why is this on window?
     var validISBN = false;
     if (bookISBN && (bookISBN.isIsbn10() || bookISBN.isIsbn13())) {
       validISBN = true;
     }
-    const validBook = validISBN && Object.keys(this.state).every(
-      (key) => this.state[key]);
+    const validBook = validISBN && Object.keys(this.state.book).every(
+      (key) => this.state.book[key]);
     return (
       <div>
         <div className="Book">
           <div className="BookCoverBox">
-              <img className="BookCoverImage" src={this.state.cover || "defaultCover.svg"} />
+              <img className="BookCoverImage" src={this.state.book.CoverImage || "defaultCover.svg"} />
           </div>       
           <div className="BookDetails">
             <TextField
               floatingLabelText="Title"
               onChange={this.handleChange}
-              id="title"
+              id="Title"
             /><br />
             <TextField
               floatingLabelText="Author"
               onChange={this.handleChange}
-              id="author"
+              id="Author"
             /><br />
             <TextField
               errorText={!validISBN && "Invalid ISBN"}
               floatingLabelText="ISBN"
               onChange={this.handleChange}
-              id="isbn"
+              id="ISBN"
             /><br />
             <DatePicker
               hintText="Publication Date"
@@ -94,12 +95,12 @@ export default class NewBookForm extends React.Component {
                 return moment(date).format("D MMMM YYYY");
               }}
               onChange={this.handleDateChange}
-              id="date"
+              id="PublishDate"
             /><br />
             <TextField
               floatingLabelText="Cover Image"
               onChange={this.handleChange}
-              id="cover"
+              id="CoverImage"
             />
           </div>
         </div>
