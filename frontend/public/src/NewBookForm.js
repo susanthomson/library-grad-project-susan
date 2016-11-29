@@ -59,7 +59,7 @@ export default class NewBookForm extends React.Component {
   }
 
   render() {
-    const bookISBN = window.ISBN.parse(this.state.book.ISBN); //why is this on window?
+    const bookISBN = ISBN.parse(this.state.book.ISBN);
     var validISBN = false;
     if (bookISBN && (bookISBN.isIsbn10() || bookISBN.isIsbn13())) {
       validISBN = true;
