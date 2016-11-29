@@ -44,8 +44,8 @@ export default class LibraryAppBar extends React.Component {
           </div>)}
         <AppBar
             title="Library"
-            iconElementLeft={<IconButton onTouchTap={this.handleShowAmazingHeader}><AlertWarning color={pinkA100}/></IconButton>}
-            iconElementRight={<FlatButton label="Add Book" onTouchTap={this.handleOpen} />}
+            iconElementLeft={<IconButton className="showHeaderButton" onTouchTap={this.handleShowAmazingHeader}><AlertWarning color={pinkA100}/></IconButton>}
+            iconElementRight={<FlatButton className="addBookButton" label="Add Book" onTouchTap={this.handleOpen} />}
         />
         <Dialog
           title="New Book"
