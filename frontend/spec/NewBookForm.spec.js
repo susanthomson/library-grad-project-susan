@@ -17,7 +17,6 @@ import moment from "moment";
 
 describe("<NewBookForm />", () => {
 
-  //injectTapEventPlugin();
   const url = "https://localhost:44312/api/books";
   fetchMock.post(url, 200);
 
@@ -119,7 +118,6 @@ describe("<NewBookForm />", () => {
   it("submitting the form makes request to /api/books endpoint with book in body", () => {
     const date = Date.now();
     const formattedDate = moment(date).format("D MMMM YYYY");
-    //console.log(formattedDate);
         const wrapper = mount(<NewBookForm onFinish={()=>{}}/>, {
       context: {
         muiTheme: getMuiTheme(),
