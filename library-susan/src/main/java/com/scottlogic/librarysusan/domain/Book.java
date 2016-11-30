@@ -1,18 +1,35 @@
 package com.scottlogic.librarysusan.domain;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("Id")
+    @Column(name="Id")
     private Integer id;
 
+    @JsonProperty("ISBN")
+    @Column(name="ISBN")
     private String isbn;
+
+    @JsonProperty("Title")
+    @Column(name="Title")
     private String title;
+
+    @JsonProperty("Author")
+    @Column(name="Author")
     private String author;
+
+    @JsonProperty("PublishDate")
+    @Column(name="PublishDate")
     private String publishDate;
+
+    @JsonProperty("CoverImage")
+    @Column(name="CoverImage")
     private String coverImage;
 
     public Book() {
