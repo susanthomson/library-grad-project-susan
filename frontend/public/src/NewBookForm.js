@@ -36,19 +36,19 @@ export default class NewBookForm extends React.Component {
   }
 
   handleSubmit(event) {
-      fetch(this.baseUrl + "/api/books", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(this.state.book)
-      })
-      .then(function(result) {
-          return result.json();
-      })
-      .then(result=> {
-          console.log(result);
-      });
+    fetch(this.baseUrl + "/api/books", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.book)
+    })
+    .then(function(result) {
+        return result.json();
+    })
+    .then(result=> {
+        console.log(result);
+    });
     this.props.onFinish();
     event.preventDefault();
   }
@@ -106,11 +106,13 @@ export default class NewBookForm extends React.Component {
         </div>
         <div className="right-justify">
           <FlatButton
+            className="cancelButton"
             label="Cancel"
             primary={true}
             onTouchTap={this.handleCancel}
           />
           <FlatButton
+            className="submitButton"
             label="Submit"
             primary={true}
             onTouchTap={this.handleSubmit}
