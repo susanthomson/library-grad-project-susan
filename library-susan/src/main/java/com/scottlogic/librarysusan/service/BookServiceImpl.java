@@ -25,4 +25,9 @@ public class BookServiceImpl implements BookService{
     public void add(final Book book) {
         bookRepository.save(book);
     }
+
+    @Override
+    public Iterable<Book> getBooks() {
+        return bookRepository.findAll();
+    }
 }
