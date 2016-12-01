@@ -8,4 +8,5 @@ public interface BookService {
     Optional<Book> getByAuthor(final String author);
 
     void add(final Book book);
+    Iterable<Book> getBooks();
 }
