@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class LibraryController {
     private final BookService bookService;
@@ -19,7 +20,7 @@ public class LibraryController {
         this.reservationService = reservationServiceService;
     }
 
-    @GetMapping(value = "/books/{author}")
+    @GetMapping(value = "/api/books/{author}")
     @ResponseBody
     public Book getBook(@PathVariable("author") final String author){
         final Optional<Book> book = bookService.getByAuthor(author);
@@ -30,25 +31,25 @@ public class LibraryController {
         }
     }
 
-    @GetMapping(value = "/books")
+    @GetMapping(value = "/api/books")
     @ResponseBody
     public Iterable<Book> getBooks() {
         return bookService.getBooks();
     }
 
-    @PostMapping(value = "/books")
+    @PostMapping(value = "/api/books")
     public void addBook(@RequestBody final Book book){
         bookService.add(book);
     }
 
-    @GetMapping(value = "/reservations")
+    @GetMapping(value = "/api/reservations")
     @ResponseBody
     public Iterable<Reservation> getReservations() {
         return reservationService.getReservations();
     }
 
-    @PostMapping(value = "/reservations")
-    public void addReservation(@RequestBody final Reservation reservation){
-        reservationService.add(reservation);
+    @PostMapping(value = "/api/reservations")
+    public void addReservation(@RequestBody final Book book){
+        reservationService.borrow(book);
     }
 }
