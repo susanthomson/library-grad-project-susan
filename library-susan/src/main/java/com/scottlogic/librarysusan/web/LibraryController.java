@@ -49,7 +49,12 @@ public class LibraryController {
     }
 
     @PostMapping(value = "/api/reservations")
-    public void addReservation(@RequestBody final Book book){
+    public void borrow(@RequestBody final Book book){
         reservationService.borrow(book);
+    }
+
+    @PutMapping(value = "/api/reservations")
+    public void unborrow(@RequestBody final Book book){
+        reservationService.unborrow(book);
     }
 }

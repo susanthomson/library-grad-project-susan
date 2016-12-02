@@ -45,4 +45,19 @@ public class ReservationServiceImpl implements ReservationService{
         }
     }
 
+    @Override
+    public void unborrow(final Book book) {
+        Optional<Reservation> reserved = reservationRepository.findByBookAndEndDateIsNull(book);
+        if (reserved.isPresent()) {
+            Date now = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String endDate = formatter.format(now);
+            Reservation reservation = reserved.get();
+            reservation.setEndDate(endDate);
+            reservationRepository.save(reservation);
+        } else {
+            throw new EntityNotFoundException("You cannot return a book that has not been borrowed");
+        }
+    }
+
 }
