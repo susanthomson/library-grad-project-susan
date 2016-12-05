@@ -1,7 +1,7 @@
 package com.scottlogic.librarysusan.domain;
 
 import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 public class Reservation {
@@ -14,6 +14,8 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "BookId")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "Id")
+    @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("BookId")
     private Book book;
 
@@ -21,8 +23,8 @@ public class Reservation {
     @Column(name="UserId")
     private String userId;
 
-    @JsonProperty("startDate")
-    @Column(name="startDate")
+    @JsonProperty("StartDate")
+    @Column(name="StartDate")
     private String startDate;
 
     @JsonProperty("EndDate")
