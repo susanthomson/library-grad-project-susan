@@ -4,6 +4,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@Table(name = "Books")
 public class Book {
 
     @Id

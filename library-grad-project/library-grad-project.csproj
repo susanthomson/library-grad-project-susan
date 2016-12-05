@@ -57,6 +57,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.ConnectorNET.Entity.6.8.3.2\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Web.6.9.9\lib\net45\MySql.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -190,10 +202,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Migrations\201611221546545_CoverImage.cs" />
-    <Compile Include="Migrations\201611221546545_CoverImage.Designer.cs">
-      <DependentUpon>201611221546545_CoverImage.cs</DependentUpon>
-    </Compile>
     <Compile Include="Repos\UserDBRepository.cs" />
     <Compile Include="Repos\IUserRepository.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
@@ -204,19 +212,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611141556536_InitialCreate.cs" />
-    <Compile Include="Migrations\201611141556536_InitialCreate.Designer.cs">
-      <DependentUpon>201611141556536_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611210812258_AddingUserToReservation.cs" />
-    <Compile Include="Migrations\201611210812258_AddingUserToReservation.Designer.cs">
-      <DependentUpon>201611210812258_AddingUserToReservation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611210821173_AlterReservationUserToNonNull.cs" />
-    <Compile Include="Migrations\201611210821173_AlterReservationUserToNonNull.Designer.cs">
-      <DependentUpon>201611210821173_AlterReservationUserToNonNull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Book.cs" />
@@ -248,20 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611141556536_InitialCreate.resx">
-      <DependentUpon>201611141556536_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611210812258_AddingUserToReservation.resx">
-      <DependentUpon>201611210812258_AddingUserToReservation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611210821173_AlterReservationUserToNonNull.resx">
-      <DependentUpon>201611210821173_AlterReservationUserToNonNull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611221546545_CoverImage.resx">
-      <DependentUpon>201611221546545_CoverImage.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

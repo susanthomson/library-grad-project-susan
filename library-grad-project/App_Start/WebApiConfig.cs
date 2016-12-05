@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using MySql.Data.Entity;
+using System.Data.Entity;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -8,14 +10,16 @@ namespace LibraryGradProject
     {
         public static void Register(HttpConfiguration config)
         {
-            var cors = new EnableCorsAttribute(origins: "http://127.0.0.1:3000", headers: "*", methods: "*");
+            var cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*");
             cors.SupportsCredentials = true;
             config.EnableCors(cors);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Filters.Add(new RequireHttpsAttribute());
+            //config.Filters.Add(new RequireHttpsAttribute());
+
+            DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
 
             // Return JSON when we access the api via a web browser
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
