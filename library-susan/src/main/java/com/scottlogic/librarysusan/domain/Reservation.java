@@ -23,8 +23,8 @@ public class Reservation {
     @Column(name="UserId")
     private String userId;
 
-    @JsonProperty("startDate")
-    @Column(name="startDate")
+    @JsonProperty("StartDate")
+    @Column(name="StartDate")
     private String startDate;
 
     @JsonProperty("EndDate")
