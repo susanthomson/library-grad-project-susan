@@ -19,9 +19,12 @@ public class Reservation {
     @JsonProperty("BookId")
     private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "Id")
+    @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("UserId")
-    @Column(name="UserId")
-    private String userId;
+    private User user;
 
     @JsonProperty("StartDate")
     @Column(name="StartDate")
@@ -35,9 +38,9 @@ public class Reservation {
         //empty constructor required by hibernate
     }
 
-    public Reservation(Book book, String userId, String startDate, String endDate) {
+    public Reservation(Book book, User user, String startDate, String endDate) {
         this.book = book;
-        this.userId = userId;
+        this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -58,12 +61,12 @@ public class Reservation {
         this.book = book;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(String userId) {
+        this.user = user;
     }
 
     public String getStartDate() {
