@@ -4,6 +4,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.*;
 
 @Entity
+@Table(name = "Reservations")
 public class Reservation {
 
     @Id
