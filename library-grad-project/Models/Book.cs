@@ -12,7 +12,6 @@ namespace LibraryGradProject.Models
         public string PublishDate { get; set; }
         public string CoverImage { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }
