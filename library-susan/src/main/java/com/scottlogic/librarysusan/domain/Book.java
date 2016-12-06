@@ -3,6 +3,8 @@ package com.scottlogic.librarysusan.domain;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "Books")
 public class Book {
@@ -32,6 +34,9 @@ public class Book {
     @JsonProperty("CoverImage")
     @Column(name="CoverImage")
     private String coverImage;
+
+    @OneToMany(mappedBy="book")
+    private Set<Reservation> reservations;
 
     public Book() {
         //empty constructor required by hibernate
@@ -91,6 +96,14 @@ public class Book {
 
     public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
 
