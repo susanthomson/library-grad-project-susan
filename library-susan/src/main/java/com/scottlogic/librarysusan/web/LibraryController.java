@@ -24,17 +24,6 @@ public class LibraryController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/api/books/{author}")
-    @ResponseBody
-    public Book getBook(@PathVariable("author") final String author){
-        final Optional<Book> book = bookService.getByAuthor(author);
-        if(book.isPresent()){
-            return book.get();
-        } else {
-            throw new EntityNotFoundException("No book found by author " + author);
-        }
-    }
-
     @GetMapping(value = "/api/books")
     @ResponseBody
     public Iterable<Book> getBooks() {

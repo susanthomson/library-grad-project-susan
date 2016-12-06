@@ -17,11 +17,6 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Optional<Book> getByAuthor(final String author) {
-        return bookRepository.findByAuthor(author);
-    }
-
-    @Override
     public void add(final Book book) {
         bookRepository.save(book);
     }
