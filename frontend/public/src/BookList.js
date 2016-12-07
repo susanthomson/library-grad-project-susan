@@ -8,14 +8,14 @@ const baseUrl = "https://localhost:44312";
 export default class BookList extends React.Component {
     constructor() {
         super();
-        this.state = { books: [], reservations: [], userId: null };
+        this.state = { books: [], userId: null };
     }
     
     componentDidMount() {
         this.getUserId();
-        this.getData();
+        this.getBooks();
         this.timerID = setInterval(
-            () => this.getData(),
+            () => this.getBooks(),
             1000
         );
     }
@@ -44,26 +44,12 @@ export default class BookList extends React.Component {
             });    
     }
 
-    getReservations() {
-        fetch(baseUrl + "/api/reservations/", {credentials : "include"})
-            .then(function(result) {
-                return result.json();
-            })
-            .then(result=> {
-                this.setState({reservations:result});
-            });    
-    }
-
-    getData() {
-        this.getBooks();
-        this.getReservations();
-    } 
     
     render() {
         return(
             <div className="BookList">
                 { this.state.books.map(book=> {
-                    var bookReserved = this.state.reservations.filter(reservation=> {
+                    var bookReserved = book.Reservations.filter(reservation=> {
                         return reservation.BookId === book.Id && reservation.EndDate === null;
                     });
                     var isReserved = bookReserved.length;

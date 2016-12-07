@@ -35,6 +35,7 @@ public class Book {
     @Column(name="CoverImage")
     private String coverImage;
 
+    @JsonProperty("Reservations")
     @OneToMany(mappedBy="book")
     private Set<Reservation> reservations;
 
