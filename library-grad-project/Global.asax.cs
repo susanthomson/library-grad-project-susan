@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Linq;
+using System.Web;
 
 namespace LibraryGradProject
 {
@@ -33,6 +35,23 @@ namespace LibraryGradProject
             var container = builder.Build();
             var config = GlobalConfiguration.Configuration;
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        protected void Application_BeginRequest()
+        {
+            if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
+            {
+                if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
+                {
+                    //These headers are handling the "pre-flight" OPTIONS call sent by the browser
+                    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "http://192.168.36.16:3000");
+                    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
+                    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+                    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Credentials", "true");
+                    HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "60");
+                    HttpContext.Current.Response.End();
+                }
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 
-const baseUrl = "https://localhost:44312";
+const baseUrl = "https://192.168.36.16:443/library-grad-project";
 
 export default class BookList extends React.Component {
     constructor() {
@@ -86,6 +86,7 @@ class ReserveControl extends React.Component {
 
   handleReserveClick() {
     fetch(baseUrl + "/api/reservations", {
+            credentials : "include",
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -104,6 +105,7 @@ class ReserveControl extends React.Component {
 
     handleReturnClick() {
         fetch(baseUrl + "/api/reservations", {
+                credentials : "include",
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

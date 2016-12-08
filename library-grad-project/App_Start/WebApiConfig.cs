@@ -10,14 +10,14 @@ namespace LibraryGradProject
     {
         public static void Register(HttpConfiguration config)
         {
-            var cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*");
+            var cors = new EnableCorsAttribute(origins: "http://192.168.36.16:3000", headers: "*", methods: "*");
             cors.SupportsCredentials = true;
             config.EnableCors(cors);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            //config.Filters.Add(new RequireHttpsAttribute());
+            config.Filters.Add(new RequireHttpsAttribute());
 
             DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
 
