@@ -3,7 +3,8 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 
-const baseUrl = "https://192.168.36.16:443/library-grad-project";
+//const baseUrl = "https://192.168.36.16:443/library-grad-project";
+const baseUrl = "https://127.0.0.1:44312";
 
 export default class BookList extends React.Component {
     constructor() {
